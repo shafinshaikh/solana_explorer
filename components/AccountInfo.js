@@ -1,3 +1,5 @@
+"use client"
+
 export default function AccountInfo({ info }) {
     if (!info || !info.value) {
       return <div>No account information available.</div>;
