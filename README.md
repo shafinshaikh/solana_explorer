@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Solana Explorer
+
+This is a simple Solana blockchain explorer built with Next.js and the Helius API.
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository:
+git clone https://github.com/shafinshaikh/solana-explorer.git
+cd solana-explorer
 
-```bash
+2. Install dependencies:
+npm install
+
+3. Create a `.env.local` file in the root directory and add your Helius API key:
+HELIUS_API_KEY=your_helius_api_key_here
+
+4. Run the development server:
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open http://localhost:3000 with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Building for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+To create a production build, run:
+npm run build
 
-## Learn More
+Then, to start the production server:
+npm start
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project can be easily deployed to Vercel or Cloudflare Pages. Simply connect your GitHub repository to either platform and they will automatically deploy your application.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Features
 
-## Deploy on Vercel
+- Search for Solana accounts by address
+- View account information (balance, executable status, rent epoch)
+- See recent transactions for the account
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Technologies Used
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Next.js 14 (App Router)
+- ReactJs
+- Tailwind CSS
+- Helius API
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request/Issue.
