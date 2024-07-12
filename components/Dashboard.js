@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Graph from './Graph';
 import InfoToolTip from './InfoToolTip';
+import Loader from './Loader';  
 import { fetchNetworkStats } from '../lib/api';
 import { formatNumber, formatSol, formatUSD } from '../lib/utils';
 
@@ -47,7 +48,7 @@ export default function Dashboard() {
   ];
 
   if (!networkStats) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (
