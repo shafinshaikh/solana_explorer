@@ -1,12 +1,31 @@
 "use client"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TokenList from './TokenList';
 import NFTGallery from './NFTGallery';
 import DomainList from './DomainList';
 import InfoTooltip from './InfoToolTip';
+import { fetchRecentTransactions } from '../lib/api';
+
 
 export default function AccountOverview({ info }) {
   const [activeTab, setActiveTab] = useState('transactions');
+  const [transactions, setTransactions] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchTransactions() {
+      try {
+        const txData = await fetchRecentTransactions(info.address);
+        setTransactions(txData);
+      } catch (error) {
+        console.error('Error fetching transactions:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchTransactions();
+  }, [info.address]);
 
   return (
     <div className="space-y-8">
@@ -49,7 +68,10 @@ export default function AccountOverview({ info }) {
           </button>
         </div>
         <div className="p-4">
-          {activeTab === 'transactions' && <TransactionHistory transactions={info.transactions} />}
+          {/* {activeTab === 'transactions' && <TransactionHistory transactions={info.transactions} />} */}
+          {activeTab === 'transactions' && (
+    loading ? <p>Loading transactions...</p> : <TransactionHistory transactions={transactions} />
+  )}
           {activeTab === 'tokens' && <TokenList tokens={info.tokens} />}
           {activeTab === 'nfts' && <NFTGallery nfts={info.nfts} />}
           {activeTab === 'domains' && <DomainList domains={info.domains} />}
@@ -65,6 +87,9 @@ export default function AccountOverview({ info }) {
 }
 
 function TransactionHistory({ transactions }) {
+  if (!transactions || transactions.length === 0) {
+    return <p>No transactions available.</p>;
+  }
   return (
     <table className="w-full">
       <thead>
