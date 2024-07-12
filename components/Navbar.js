@@ -16,7 +16,7 @@ export default function Navbar() {
   return (
     <nav className="bg-gray-800 py-4 px-8 flex justify-between items-center">
       <Link href="/">
-        <Image src="/logo.svg" alt="Solana Explorer" width={150} height={40} />
+        <Image src="/solana_logo.svg" alt="Solana Explorer" width={50} height={50} />
       </Link>
       <div className="flex items-center space-x-4">
         <select

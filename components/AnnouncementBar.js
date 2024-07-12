@@ -19,11 +19,11 @@ export default function AnnouncementBar() {
   if (!stats) return null;
 
   return (
-    <div className="bg-gray-800 text-white py-2 px-4 flex justify-between text-sm">
+    <div className="bg-gray-950 text-white py-2 px-2 flex  justify-evenly text-sm">
       <span>SOL: ${stats.solPrice}</span>
       <span>mCap: ${stats.marketCap}</span>
       <span>TPS: {stats.tps}</span>
-      <span>Network: {stats.networkStatus}</span>
+      <span>Network: Online</span>
     </div>
   );
 }
