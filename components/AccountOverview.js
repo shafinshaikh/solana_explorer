@@ -1,9 +1,11 @@
 "use client"
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import TokenList from './TokenList';
 import NFTGallery from './NFTGallery';
 import DomainList from './DomainList';
 import InfoTooltip from './InfoToolTip';
+import Clipboard from './Clipboard';
 import { fetchRecentTransactions } from '../lib/api';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
@@ -55,7 +57,7 @@ export default function AccountOverview({ info }) {
     <div className="space-y-8">
       <div className="bg-gray-800 p-6 rounded">
         <h2 className="text-2xl font-bold mb-4">Account Overview</h2>
-        <p><strong>Address:</strong> {info.address}</p>
+        <p className='flex flex-row'><strong>Address:</strong> &nbsp; {info.address}<Clipboard text={info.address} /></p>
         <p><strong>SOL Balance:</strong> {info.balance/ 1e9} SOL</p>
         <p>
           <strong>Executable:</strong> {info.executable ? 'Yes' : 'No'}
@@ -146,6 +148,8 @@ export default function AccountOverview({ info }) {
 }
 
 function TransactionHistory({ transactions }) {
+  const router = useRouter();
+
   if (!transactions || transactions.length === 0) {
     return <p>No transactions available.</p>;
   }
@@ -157,6 +161,11 @@ function TransactionHistory({ transactions }) {
   const formatTimestamp = (timestamp) => {
     return new Date(timestamp).toLocaleString();
   };
+
+  const handleRowClick = (signature) => {
+    router.push(`/transaction/${signature}`);
+  };
+
 
   return (
     <div className="overflow-x-auto">
@@ -172,22 +181,27 @@ function TransactionHistory({ transactions }) {
           </tr>
         </thead>
         <tbody>
-          {transactions.map((tx) => (
-            <tr key={tx.signature} className="border-t border-gray-700">
-              <td className="px-4 py-2">
-                <span title={tx.signature} className="cursor-pointer">
+        {transactions.map((tx) => (
+            <tr 
+              key={tx.signature} 
+              className="border-t border-gray-700 hover:bg-gray-700 cursor-pointer"
+              onClick={() => handleRowClick(tx.signature)}
+            >
+              <td className="px-4 py-2 flex">
+                <span title={tx.signature}>
                   {shortenAddress(tx.signature)}
                 </span>
+                <Clipboard text={tx.signature} />
               </td>
               <td className="px-4 py-2">{tx.balanceChange / 1e9} SOL</td>
-              <td className="px-4 py-2">{tx.fee/ 1e9} SOL</td>
-              <td className="px-4 py-2">
-                <span title={tx.from} className="cursor-pointer">
+              <td className="px-4 py-2">{tx.fee / 1e9} SOL</td>
+              <td className="px-4 py-2 flex">
+                <span title={tx.from}>
                   {shortenAddress(tx.from)}
                 </span>
               </td>
               <td className="px-4 py-2">
-                <span title={tx.to} className="cursor-pointer">
+                <span title={tx.to}>
                   {shortenAddress(tx.to)}
                 </span>
               </td>
