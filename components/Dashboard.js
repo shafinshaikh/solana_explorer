@@ -17,18 +17,18 @@ export default function Dashboard() {
       try {
         const stats = await fetchNetworkStats();
         setNetworkStats(stats);
-
-        // Generate dummy data for graphs
-        const now = Date.now();
-        const newTpsData = Array.from({ length: 30 }, (_, i) => ({
-          time: new Date(now - (29 - i) * 60000).toISOString(),
-          value: parseFloat(stats.tps) + Math.random() * 10 - 5,
+        console.log("network stats: ", stats);
+        // Generate TPS data from recent performance samples
+        const newTpsData = stats.recentPerformanceSamples.map((sample, index) => ({
+          time: new Date(Date.now() - (29 - index) * 60000).toISOString(),
+          value: sample.numTransactions / sample.samplePeriodSecs,
         }));
         setTpsData(newTpsData);
 
+        // Generate ping data (as we don't have real ping data, we'll use a placeholder)
         const newPingData = Array.from({ length: 30 }, (_, i) => ({
-          time: new Date(now - (29 - i) * 60000).toISOString(),
-          value: 20 + Math.random() * 10,
+          time: new Date(Date.now() - (29 - i) * 60000).toISOString(),
+          value: 3000 + Math.random() * 400, // Random value between 3000 and 3400 ms
         }));
         setPingData(newPingData);
       } catch (error) {
@@ -42,9 +42,9 @@ export default function Dashboard() {
   }, []);
 
   const dummyNews = [
-    { title: "Solana Breaks New TPS Record", url: "#" },
-    { title: "Major DeFi Protocol Launches on Solana", url: "#" },
-    { title: "Solana Foundation Announces New Grant Program", url: "#" },
+    { title: "Solana Breaks New TPS Record", url: "solana.com" },
+    { title: "Claim your Jupiter Airdrop Now", url: "vote.ju.ag" },
+    { title: "Solana Foundation Announces New Grant Program", url: "solana.com" },
   ];
 
   if (!networkStats) {
