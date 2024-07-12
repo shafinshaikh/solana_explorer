@@ -5,12 +5,17 @@ import NFTGallery from './NFTGallery';
 import DomainList from './DomainList';
 import InfoTooltip from './InfoToolTip';
 import { fetchRecentTransactions } from '../lib/api';
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 
 export default function AccountOverview({ info }) {
   const [activeTab, setActiveTab] = useState('transactions');
   const [transactions, setTransactions] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -27,17 +32,36 @@ export default function AccountOverview({ info }) {
     fetchTransactions();
   }, [info.address]);
 
+  useEffect(() => {
+    if (transactions) {
+      const last7Days = transactions.slice(0, 7).reverse();
+      const labels = last7Days.map(tx => new Date(tx.timestamp).toLocaleDateString());
+      const data = last7Days.map(tx => parseFloat(tx.balanceChange / 1e9));
+
+      setChartData({
+        labels,
+        datasets: [
+          {
+            label: 'SOL Change',
+            data,
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+          },
+        ],
+      });
+    }
+  }, [transactions]);
+
   return (
     <div className="space-y-8">
       <div className="bg-gray-800 p-6 rounded">
         <h2 className="text-2xl font-bold mb-4">Account Overview</h2>
         <p><strong>Address:</strong> {info.address}</p>
-        <p><strong>SOL Balance:</strong> {info.balance} SOL</p>
+        <p><strong>SOL Balance:</strong> {info.balance/ 1e9} SOL</p>
         <p>
           <strong>Executable:</strong> {info.executable ? 'Yes' : 'No'}
           <InfoTooltip content="Indicates if this account contains a program" />
         </p>
-        <p><strong>Total Net Worth:</strong> ${info.netWorth}</p>
+        <p><strong>Total Net Worth:</strong> {info.netWorth || (info.balance / 1e9 )} SOL</p>
       </div>
 
       <div className="bg-gray-800 rounded">
@@ -79,8 +103,43 @@ export default function AccountOverview({ info }) {
       </div>
 
       <div className="bg-gray-800 p-6 rounded">
+      <div className="bg-gray-800 p-6 rounded">
         <h2 className="text-2xl font-bold mb-4">Account Insights</h2>
-        {/* Add visual representations of account insights here */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h3 className="text-xl font-semibold mb-2">Transaction Volume</h3>
+            <p className="text-3xl font-bold">{transactions ? transactions.length : 'Loading...'}</p>
+            <p className="text-sm text-gray-400">Total transactions</p>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold mb-2">Net SOL Change</h3>
+            <p className="text-3xl font-bold">
+              {transactions
+                ? transactions.reduce((sum, tx) => sum + parseFloat(tx.balanceChange / 1e9), 0).toFixed(4)
+                : 'Loading...'}
+            </p>
+            <p className="text-sm text-gray-400">Total SOL change from transactions</p>
+          </div>
+          <div className="col-span-2">
+            <h3 className="text-xl font-semibold mb-2">SOL Change (Last 7 Transactions)</h3>
+            {chartData ? (
+              <Bar
+                data={chartData}
+                options={{
+                  responsive: true,
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                    },
+                  },
+                }}
+              />
+            ) : (
+              <p>Loading chart data...</p>
+            )}
+          </div>
+          </div>
+          </div>
       </div>
     </div>
   );
@@ -90,30 +149,53 @@ function TransactionHistory({ transactions }) {
   if (!transactions || transactions.length === 0) {
     return <p>No transactions available.</p>;
   }
+
+  const shortenAddress = (address) => {
+    return `${address.slice(0, 4)}...${address.slice(-4)}`;
+  };
+
+  const formatTimestamp = (timestamp) => {
+    return new Date(timestamp).toLocaleString();
+  };
+
   return (
-    <table className="w-full">
-      <thead>
-        <tr>
-          <th>Signature</th>
-          <th>SOL Change</th>
-          <th>Fee</th>
-          <th>From</th>
-          <th>To</th>
-          <th>Timestamp</th>
-        </tr>
-      </thead>
-      <tbody>
-        {transactions.map((tx) => (
-          <tr key={tx.signature}>
-            <td>{tx.signature}</td>
-            <td>{tx.solChange}</td>
-            <td>{tx.fee}</td>
-            <td>{tx.from}</td>
-            <td>{tx.to}</td>
-            <td>{tx.timestamp}</td>
+    <div className="overflow-x-auto">
+      <table className="w-full table-auto">
+        <thead>
+          <tr className="text-left">
+            <th className="px-4 py-2">Signature</th>
+            <th className="px-4 py-2">SOL Change</th>
+            <th className="px-4 py-2">Fee</th>
+            <th className="px-4 py-2">From</th>
+            <th className="px-4 py-2">To</th>
+            <th className="px-4 py-2">Timestamp</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {transactions.map((tx) => (
+            <tr key={tx.signature} className="border-t border-gray-700">
+              <td className="px-4 py-2">
+                <span title={tx.signature} className="cursor-pointer">
+                  {shortenAddress(tx.signature)}
+                </span>
+              </td>
+              <td className="px-4 py-2">{tx.balanceChange / 1e9} SOL</td>
+              <td className="px-4 py-2">{tx.fee/ 1e9} SOL</td>
+              <td className="px-4 py-2">
+                <span title={tx.from} className="cursor-pointer">
+                  {shortenAddress(tx.from)}
+                </span>
+              </td>
+              <td className="px-4 py-2">
+                <span title={tx.to} className="cursor-pointer">
+                  {shortenAddress(tx.to)}
+                </span>
+              </td>
+              <td className="px-4 py-2">{formatTimestamp(tx.timestamp)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
