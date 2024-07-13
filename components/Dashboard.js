@@ -12,12 +12,12 @@ export default function Dashboard() {
   const [networkStats, setNetworkStats] = useState(null);
   const [tpsData, setTpsData] = useState([]);
   const [pingData, setPingData] = useState([]);
-  const { network } = useNetwork();
+  // const { network } = useNetwork();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const stats = await fetchNetworkStats(network);
+        const stats = await fetchNetworkStats();
         setNetworkStats(stats);
         console.log("network stats: ", stats);
         // Generate TPS data from recent performance samples

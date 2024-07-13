@@ -6,18 +6,19 @@ import Image from 'next/image';
 import { useNetwork } from '@/contexts/NetworkContext';
 
 export default function Navbar() {
-  const { network, updateNetwork } = useNetwork("devnet");
+  // const { network, updateNetwork } = useNetwork("devnet");
   const [wallet, setWallet] = useState(null);
+  const [network, setNetwork ] = useState('devnet');
 
   const connectWallet = async () => {
     // Implement wallet connection logic
     setWallet({ address: 'FTaGN4a9THrV9zGLaYvC8ZouxUBBvb3o8JmZgs3ZB2LP' });
   };
 
-  useEffect(() => {
-    // This effect will run when the component mounts
-    // It ensures the select element shows the correct network
-  }, [network]);
+  // useEffect(() => {
+  //   // This effect will run when the component mounts
+  //   // It ensures the select element shows the correct network
+  // }, [network]);
 
   return (
     <nav className="bg-gray-800 py-4 px-8 flex justify-between items-center">
@@ -27,7 +28,7 @@ export default function Navbar() {
       <div className="flex items-center space-x-4">
         <select
           value={network}
-          onChange={(e) => updateNetwork(e.target.value)}
+          onChange={(e) => setNetwork(e.target.value)}
           className="bg-gray-700 text-white px-2 py-1 rounded"
         >
           <option value="devnet">Devnet</option>

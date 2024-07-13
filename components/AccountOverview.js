@@ -20,7 +20,7 @@ export default function AccountOverview({ info }) {
   const [transactions, setTransactions] = useState(null);
   const [loading, setLoading] = useState(true);
   const [chartData, setChartData] = useState(null);
-  const { network } = useNetwork();
+  // const { network } = useNetwork();
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -35,7 +35,7 @@ export default function AccountOverview({ info }) {
     }
 
     fetchTransactions();
-  }, [info.address, network]);
+  }, [info.address]);
 
   useEffect(() => {
     if (transactions) {

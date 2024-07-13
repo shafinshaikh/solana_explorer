@@ -15,11 +15,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark">
       <body className={`${inter.className} bg-gray-900 text-white`}>
-        <NetworkProvider>
+        {/* <NetworkProvider> */}
           <AnnouncementBar />
           <Navbar />
           <main className="container mx-auto px-4 py-8">{children}</main>
-        </NetworkProvider>
+        {/* </NetworkProvider> */}
       </body>
     </html>
   );
