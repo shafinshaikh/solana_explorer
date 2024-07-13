@@ -2,19 +2,21 @@
 
 import { useState, useEffect } from "react";
 import { fetchNetworkStats } from "@/lib/api";
+import { useNetwork } from "@/contexts/NetworkContext";
 
 export default function AnnouncementBar() {
   const [stats, setStats] = useState(null);
-  
+  const { network } = useNetwork();
+
   useEffect(() => {
     const fetchStats = async () => {
-      const data = await fetchNetworkStats();
+      const data = await fetchNetworkStats(network);
       setStats(data);
     };
     fetchStats();
     const interval = setInterval(fetchStats, 60000); // Update every minute
     return () => clearInterval(interval);
-  }, []);
+  }, [network]);
 
   if (!stats) return null;
 
