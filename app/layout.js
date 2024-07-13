@@ -7,7 +7,7 @@ import { NetworkProvider } from "@/contexts/NetworkContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Solana Explorer",
+  title: "Shafin's Solana Explorer",
   description: "A Solana Blockchain explorer that can be read comfortably",
 };
 

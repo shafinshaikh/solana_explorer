@@ -68,7 +68,8 @@ export default function Dashboard() {
             Current Epoch <InfoToolTip content="A period of time in the Solana network" />
           </h3>
           <p>Epoch: {networkStats.currentEpoch}</p>
-          <p>Total Stake: {formatSol(networkStats.totalStake)}</p>
+          <p>Block Height: {networkStats.blockHeight}</p>
+          <p>Slots in Epoch: {networkStats.slotsInEpoch}</p>
           <p>Inflation Rate: {(networkStats.inflationRate * 100).toFixed(2)}%</p>
         </div>
         <div className="bg-gray-800 p-4 rounded">
