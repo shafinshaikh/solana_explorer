@@ -14,7 +14,7 @@ export default function SearchBar() {
     setIsSearching(true);
 
     try {
-      if (query.length === 44 || query.length === 32) {
+      if (32 < query.length < 44) {
         await router.push(`/account/${query}`);
       } else if (query.length === 88) {
         await router.push(`/transaction/${query}`);
