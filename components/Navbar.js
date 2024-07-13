@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useNetwork } from '@/contexts/NetworkContext';
 
 export default function Navbar() {
@@ -40,12 +41,13 @@ export default function Navbar() {
             My Profile
           </Link>
         ) : (
-          <button
-            onClick={connectWallet}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
-            Connect Wallet
-          </button>
+          // <button
+          //   onClick={connectWallet}
+          //   className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          // >
+          //   Connect Wallet
+          // </button>
+          <WalletMultiButton style={{}} />
         )}
       </div>
     </nav>
