@@ -9,6 +9,8 @@ import Clipboard from './Clipboard';
 import { fetchRecentTransactions } from '../lib/api';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { useNetwork } from "@/contexts/NetworkContext";
+
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -18,6 +20,7 @@ export default function AccountOverview({ info }) {
   const [transactions, setTransactions] = useState(null);
   const [loading, setLoading] = useState(true);
   const [chartData, setChartData] = useState(null);
+  const { network } = useNetwork();
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -32,7 +35,7 @@ export default function AccountOverview({ info }) {
     }
 
     fetchTransactions();
-  }, [info.address]);
+  }, [info.address, network]);
 
   useEffect(() => {
     if (transactions) {

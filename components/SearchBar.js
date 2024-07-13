@@ -19,7 +19,7 @@ export default function SearchBar() {
       } else if (query.length === 88) {
         await router.push(`/transaction/${query}`);
       } else {
-        // Handle other search types or show an error
+        alert("Please enter valid address/signature on the selected network");
       }
     } catch (error) {
       console.error('Search error:', error);

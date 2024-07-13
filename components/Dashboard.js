@@ -6,16 +6,18 @@ import InfoToolTip from './InfoToolTip';
 import Loader from './Loader';  
 import { fetchNetworkStats } from '../lib/api';
 import { formatNumber, formatSol, formatUSD } from '../lib/utils';
+import { useNetwork } from "@/contexts/NetworkContext";
 
 export default function Dashboard() {
   const [networkStats, setNetworkStats] = useState(null);
   const [tpsData, setTpsData] = useState([]);
   const [pingData, setPingData] = useState([]);
+  const { network } = useNetwork();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const stats = await fetchNetworkStats();
+        const stats = await fetchNetworkStats(network);
         setNetworkStats(stats);
         console.log("network stats: ", stats);
         // Generate TPS data from recent performance samples
@@ -70,6 +72,7 @@ export default function Dashboard() {
           </h3>
           <p>Epoch: {networkStats.currentEpoch}</p>
           <p>Block Height: {networkStats.blockHeight}</p>
+          <p>Slots in Epoch: {networkStats.slotsInEpoch}</p>
           <p>Inflation Rate: {(networkStats.inflationRate * 100).toFixed(2)}%</p>
         </div>
         <div className="bg-gray-800 p-4 rounded">
