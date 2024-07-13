@@ -42,9 +42,10 @@ export default function Dashboard() {
   }, []);
 
   const dummyNews = [
-    { title: "Solana Breaks New TPS Record", url: "solana.com" },
-    { title: "Claim your Jupiter Airdrop Now", url: "vote.ju.ag" },
-    { title: "Solana Foundation Announces New Grant Program", url: "solana.com" },
+    { title: "Solana Breaks New TPS Record", url: "https://www.solana.com" },
+    { title: "Claim your Jupiter Airdrop Now", url: "https://www.vote.jup.ag" },
+    { title: "Solana Foundation Announces New Grant Program", url: "https://www.solana.com" },
+    { title: "Solana Introduces Blinks", url: "https://solana.com/docs/advanced/actions" },
   ];
 
   if (!networkStats) {
@@ -68,7 +69,7 @@ export default function Dashboard() {
             Current Epoch <InfoToolTip content="A period of time in the Solana network" />
           </h3>
           <p>Epoch: {networkStats.currentEpoch}</p>
-          <p>Total Stake: {formatSol(networkStats.totalStake)}</p>
+          <p>Block Height: {networkStats.blockHeight}</p>
           <p>Inflation Rate: {(networkStats.inflationRate * 100).toFixed(2)}%</p>
         </div>
         <div className="bg-gray-800 p-4 rounded">
@@ -76,7 +77,7 @@ export default function Dashboard() {
           <ul className="space-y-2">
             {dummyNews.map((news, index) => (
               <li key={index}>
-                <a href={news.url} className="text-blue-400 hover:underline">
+                <a href={news.url} target="_blank" className="text-blue-400 hover:underline">
                   {news.title}
                 </a>
               </li>

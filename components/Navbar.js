@@ -10,7 +10,7 @@ export default function Navbar() {
 
   const connectWallet = async () => {
     // Implement wallet connection logic
-    setWallet({ address: 'dummy-address' });
+    setWallet({ address: 'FTaGN4a9THrV9zGLaYvC8ZouxUBBvb3o8JmZgs3ZB2LP' });
   };
 
   return (
@@ -24,8 +24,8 @@ export default function Navbar() {
           onChange={(e) => setNetwork(e.target.value)}
           className="bg-gray-700 text-white px-2 py-1 rounded"
         >
-          <option value="mainnet">Mainnet</option>
           <option value="devnet">Devnet</option>
+          <option value="mainnet">Mainnet</option>
           <option value="testnet">Testnet</option>
         </select>
         {wallet ? (

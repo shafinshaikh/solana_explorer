@@ -151,7 +151,7 @@ function TransactionHistory({ transactions }) {
   const router = useRouter();
 
   if (!transactions || transactions.length === 0) {
-    return <p>No transactions available.</p>;
+    return <p>No recent transactions available.</p>;
   }
 
   const shortenAddress = (address) => {
