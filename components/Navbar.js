@@ -3,9 +3,10 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useNetwork } from '@/contexts/NetworkContext';
 
 export default function Navbar() {
-  const [network, setNetwork] = useState('mainnet');
+  const { network, setNetwork } = useNetwork("devnet");
   const [wallet, setWallet] = useState(null);
 
   const connectWallet = async () => {
@@ -24,8 +25,8 @@ export default function Navbar() {
           onChange={(e) => setNetwork(e.target.value)}
           className="bg-gray-700 text-white px-2 py-1 rounded"
         >
-          <option value="mainnet">Mainnet</option>
           <option value="devnet">Devnet</option>
+          <option value="mainnet">Mainnet</option>
           <option value="testnet">Testnet</option>
         </select>
         {wallet ? (

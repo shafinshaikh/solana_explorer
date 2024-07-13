@@ -1,20 +1,23 @@
 import InfoTooltip from "./InfoToolTip";
+import Clipboard from "./Clipboard";
 
 export default function TransactionDetails({ details }) {
   console.log("details of each transaction: ", details);
   return (
     <div className="bg-gray-800 p-6 rounded space-y-4">
       <h2 className="text-2xl font-bold mb-4">Transaction Details</h2>
-      <p>
-        <strong>Signature:</strong> {details.signature}
+      <p className="flex">
+        <strong>Signature:&nbsp;</strong> {details.signature}
         <InfoTooltip content="Unique identifier for this transaction" />
+        <Clipboard text={details.signature}/>
       </p>
-      <p>
-        <strong>From: </strong> {details.from}
+      <p className="flex">
+        <strong>From: &nbsp;</strong> {details.from}
         <InfoTooltip content="Address that initiated the transaction" />
+        <Clipboard text={details.from} />
       </p>
-      <p>
-        <strong>To: </strong>
+      <p className="flex">
+        <strong>To: &nbsp;</strong>
         {Array.isArray(details.to) ? (
           <ul>
             {details.to.map((address, index) => (
@@ -25,6 +28,7 @@ export default function TransactionDetails({ details }) {
           details.to
         )}
         <InfoTooltip content="Address(es) that received the transaction" />
+        <Clipboard text={details.to} />
       </p>
       <p>
         <strong>Result: </strong>
