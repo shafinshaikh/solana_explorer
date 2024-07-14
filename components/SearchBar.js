@@ -30,13 +30,13 @@ export default function SearchBar() {
   };
 
   return (
-    <form onSubmit={handleSearch} className="w-full max-w-2xl mx-auto relative">
+    <form onSubmit={handleSearch} className="w-full rounded max-w-2xl mx-auto relative">
       <input
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search for address, signature, block, token..."
-        className="w-full px-4 py-2 pr-12 rounded-l bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full px-4 py-2 pr-12 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       {isSearching ? (
         <div className="absolute right-0 top-0 bottom-0 px-4 flex items-center justify-center bg-blue-500 rounded-r">

@@ -4,52 +4,55 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { useNetwork } from '@/contexts/NetworkContext';
+import { Menu, X } from 'lucide-react'; // Make sure to install lucide-react
 
 export default function Navbar() {
-  // const { network, updateNetwork } = useNetwork("devnet");
   const [wallet, setWallet] = useState(null);
-  const [network, setNetwork ] = useState('devnet');
+  const [network, setNetwork] = useState('devnet');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const connectWallet = async () => {
-    // Implement wallet connection logic
-    setWallet({ address: 'FTaGN4a9THrV9zGLaYvC8ZouxUBBvb3o8JmZgs3ZB2LP' });
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
-  // useEffect(() => {
-  //   // This effect will run when the component mounts
-  //   // It ensures the select element shows the correct network
-  // }, [network]);
-
   return (
-    <nav className="bg-gray-800 py-4 px-8 flex justify-between items-center">
-      <Link href="/">
-        <Image src="/solana_logo.svg" alt="Shafin's Solana Explorer" width={50} height={50} />
-      </Link>
-      <div className="flex items-center space-x-4">
-        <select
-          value={network}
-          onChange={(e) => setNetwork(e.target.value)}
-          className="bg-gray-700 text-white px-2 py-1 rounded"
-        >
-          <option value="devnet">Devnet</option>
-          <option value="mainnet">Mainnet</option>
-          <option value="testnet">Testnet</option>
-        </select>
-        {wallet ? (
-          <Link href="/profile" className="text-white hover:text-gray-300">
-            My Profile
-          </Link>
-        ) : (
-          // <button
-          //   onClick={connectWallet}
-          //   className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          // >
-          //   Connect Wallet
-          // </button>
+    <nav className="bg-gray-800 py-4 px-4 sm:px-8">
+      <div className="flex justify-between items-center">
+        <Link href="/">
+          <Image src="/solana_logo.svg" alt="Shafin's Solana Explorer" width={50} height={50} />
+        </Link>
+        <div className="hidden sm:flex items-center space-x-4">
+          <select
+            value={network}
+            onChange={(e) => setNetwork(e.target.value)}
+            className="bg-gray-700 text-white px-2 py-1 rounded"
+          >
+            <option value="devnet">Devnet</option>
+            <option value="mainnet">Mainnet</option>
+            <option value="testnet">Testnet</option>
+          </select>
           <WalletMultiButton style={{}} />
-        )}
+        </div>
+        <button onClick={toggleMenu} className="sm:hidden text-white">
+          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
+      {isMenuOpen && (
+        <div className="mt-4 sm:hidden">
+          <select
+            value={network}
+            onChange={(e) => setNetwork(e.target.value)}
+            className="bg-gray-700 text-white px-2 py-1 rounded w-full mb-2"
+          >
+            <option value="devnet">Devnet</option>
+            <option value="mainnet">Mainnet</option>
+            <option value="testnet">Testnet</option>
+          </select>
+          <div className="flex justify-center">
+            <WalletMultiButton style={{}} />
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
