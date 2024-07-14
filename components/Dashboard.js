@@ -19,7 +19,7 @@ export default function Dashboard() {
       try {
         const stats = await fetchNetworkStats();
         setNetworkStats(stats);
-        console.log("network stats: ", stats);
+        // console.log("network stats: ", stats);
         // Generate TPS data from recent performance samples
         const newTpsData = stats.recentPerformanceSamples.map((sample, index) => ({
           time: new Date(Date.now() - (29 - index) * 60000).toISOString(),

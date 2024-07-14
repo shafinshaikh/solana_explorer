@@ -2,7 +2,7 @@ import InfoTooltip from "./InfoToolTip";
 import Clipboard from "./Clipboard";
 
 export default function TransactionDetails({ details }) {
-  console.log("details of each transaction: ", details);
+  // console.log("details of each transaction: ", details);
   return (
     <div className="bg-gray-800 p-4 md:p-6 rounded space-y-3 md:space-y-4 text-sm md:text-base">
       <h2 className="text-xl md:text-2xl font-bold mb-2 md:mb-4">Transaction Details</h2>
