@@ -6,7 +6,7 @@ export default async function AccountPage({ params }) {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-8">Account Details</h1>
+      <h1 className="text-center text-2xl sm:text-3xl font-bold mb-8">Account Details</h1>
       <AccountOverview info={accountInfo} />
     </div>
   );
